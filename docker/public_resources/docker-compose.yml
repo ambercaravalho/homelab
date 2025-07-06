@@ -1,0 +1,142 @@
+services:
+  open-webui:
+    image: "ghcr.io/open-webui/open-webui:main"
+    container_name: "open-webui"
+    restart: "unless-stopped"
+    ports:
+      - "3000:8080"
+    networks:
+      - "cloudflared"
+    volumes:
+      - "~/Documents/public-resources/open-webui:/app/backend/data"
+
+  planning-poker:
+    image: "axeleroy/self-host-planning-poker:latest"
+    container_name: "planning-poker"
+    ports:
+      - "4222:8000"
+    networks:
+      - "cloudflared"
+    volumes:
+      - "~/Documents/public-resources/planning-poker/data:/data"
+      - "~/Documents/public-resources/planning-poker/customization/app-icon.svg:/app/static/assets/icon.svg"
+      - "~/Documents/public-resources/planning-poker/customization/favicon-package:/app/static/assets/favicon"
+      - "~/Documents/public-resources/planning-poker/customization/overrides.css:/app/static/overrides.css"
+
+  wordpress-v2:
+    image: "docker.io/bitnami/wordpress:latest"
+    container_name: "archive-v2-wordpress"
+    restart: "unless-stopped"
+    depends_on:
+      - wordpress-db-v2
+    ports:
+      - "3840:80/tcp"
+    networks:
+      - "cloudflared"
+      - "wordpress_db_archive_v2"
+    environment:
+      - "WORDPRESS_DATABASE_HOST=wordpress-db-v2"
+      - "WORDPRESS_DATABASE_PORT_NUMBER=3306"
+      - "WORDPRESS_DATABASE_USER=${WORDPRESS_DATABASE_USER_ARCHIVE_V2}"
+      - "WORDPRESS_DATABASE_NAME=${WORDPRESS_DATABASE_NAME_ARCHIVE_V2}"
+      - "WORDPRESS_DATABASE_PASSWORD=${WORDPRESS_DATABASE_PASSWORD_ARCHIVE_V2}"
+    volumes:
+      - "~/Documents/new-wordpress-archive/archive-v2-wordpress/wp-data:/bitnami/wordpress"
+
+  wordpress-db-v2:
+    image: "docker.io/bitnami/mariadb:latest"
+    container_name: "archive-v2-db"
+    restart: "unless-stopped"
+    networks:
+      - "wordpress_db_archive_v2"
+    environment:
+      - "MARIADB_USER=${WORDPRESS_DATABASE_USER_ARCHIVE_V2}"
+      - "MARIADB_DATABASE=${WORDPRESS_DATABASE_NAME_ARCHIVE_V2}"
+      - "MARIADB_PASSWORD=${WORDPRESS_DATABASE_PASSWORD_ARCHIVE_V2}"
+    volumes:
+      - "~/Documents/new-wordpress-archive/archive-v2-wordpress/db:/bitnami/mariadb"
+
+  wordpress-v3:
+    image: "wordpress:latest"
+    container_name: "wordpress-archive-v3"
+    restart: "unless-stopped"
+    ports:
+      - "3838:80/tcp"
+    networks:
+      - "cloudflared"
+      - "wordpress_db_archive_v3"
+    environment:
+      - "WORDPRESS_DB_HOST=wordpress-db-v3"
+      - "WORDPRESS_DB_PASSWORD=${WORDPRESS_DATABASE_PASSWORD_ARCHIVE_V3}"
+      - "WORDPRESS_DB_NAME=${WORDPRESS_DATABASE_NAME_ARCHIVE_V3}"
+      - "WORDPRESS_DB_USER=${WORDPRESS_DATABASE_USER_ARCHIVE_V3}"
+    volumes:
+      - "~/Documents/archive-wordpress-legacy/archive-v3_wordpress:/var/www/html"
+
+  wordpress-db-v3:
+    image: "biarms/mysql:5.7"
+    container_name: "wordpress-db-archive-v3"
+    restart: "unless-stopped"
+    networks:
+      - "wordpress_db_archive_v3"
+    environment:
+      - "MYSQL_DATABASE=${WORDPRESS_DATABASE_NAME_ARCHIVE_V3}"
+      - "MYSQL_USER=${WORDPRESS_DATABASE_USER_ARCHIVE_V3}"
+      - "MYSQL_PASSWORD=${WORDPRESS_DATABASE_PASSWORD_ARCHIVE_V3}"
+      - "MYSQL_RANDOM_ROOT_PASSWORD=1"
+    volumes:
+      - "~/Documents/archive-wordpress-legacy/archive-v3_wordpress/db:/var/lib/mysql"
+
+  wordpress-cybergames:
+    image: "wordpress:latest"
+    container_name: "wordpress-cybergames"
+    restart: "unless-stopped"
+    ports:
+      - "3840:80/tcp"
+    networks:
+      - "cloudflared"
+      - "wordpress_db_archive_cybergames"
+    environment:
+      - "WORDPRESS_DB_HOST=wordpress-db-cybergames"
+      - "WORDPRESS_DB_PASSWORD=${WORDPRESS_DATABASE_PASSWORD_ARCHIVE_JBLECYBERGAMES}"
+      - "WORDPRESS_DB_NAME=${WORDPRESS_DATABASE_NAME_ARCHIVE_JBLECYBERGAMES}"
+      - "WORDPRESS_DB_USER=${WORDPRESS_DATABASE_USER_ARCHIVE_JBLECYBERGAMES}"
+    volumes:
+      - "~/Documents/archive-wordpress-legacy/cyber-games_wordpress:/var/www/html"
+
+  wordpress-db-cybergames:
+    image: "biarms/mysql:5.7"
+    container_name: "wordpress-db-archive-cybergames"
+    restart: "unless-stopped"
+    networks:
+      - "wordpress_db_archive_cybergames"
+    environment:
+      - "MYSQL_DATABASE=${WORDPRESS_DATABASE_NAME_ARCHIVE_JBLECYBERGAMES}"
+      - "MYSQL_USER=${WORDPRESS_DATABASE_USER_ARCHIVE_JBLECYBERGAMES}"
+      - "MYSQL_PASSWORD=${WORDPRESS_DATABASE_PASSWORD_ARCHIVE_JBLECYBERGAMES}"
+      - "MYSQL_RANDOM_ROOT_PASSWORD=1"
+    volumes:
+      - "~/Documents/archive-wordpress-legacy/cyber-games_wordpress/db:/var/lib/mysql"
+
+networks:
+  wordpress_archive_cybergames:
+    external: true
+    name: "wordpress_archive_cybergames"
+  wordpress_db_archive_cybergames:
+    external: true
+    name: "wordpress_db_archive_cybergames"
+  wordpress_archive_v3:
+    external: true
+    name: "wordpress_archive_v3"
+  wordpress_db_archive_v3:
+    external: true
+    name: "wordpress_db_archive_v3"
+  wordpress_archive_v2:
+    external: true
+    name: "wordpress_archive_v2"
+  wordpress_db_archive_v2:
+    external: true
+    name: "wordpress_db_archive_v2"
+  cloudflared:
+    external: true
+    name: "cloudflared"

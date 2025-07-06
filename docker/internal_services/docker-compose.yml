@@ -1,0 +1,55 @@
+services:
+  autoheal:
+    image: tmknight88/docker-autoheal:latest
+    container_name: autoheal
+    restart: unless-stopped
+    network_mode: none
+    read_only: true
+    user: "0:0"
+    environment:
+      - AUTOHEAL_CONNECTION_TYPE=socket
+      - AUTOHEAL_MONITOR_ALL=true
+      - AUTOHEAL_LOG_PERSIST=true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ~/Documents/internal-services/autoheal/log.json:/opt/docker-autoheal/log.json:rw
+
+  glance:
+    image: glanceapp/glance
+    container_name: glance
+    restart: unless-stopped
+    ports:
+      - 2811:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ~/Documents/internal-services/glance:/app/config
+
+  homebridge:
+   image: "homebridge/homebridge:latest"
+   container_name: "homebridge"
+   network_mode: "host"
+   restart: "always"
+   volumes:
+    - "~/Documents/home-automation/homebridge:/homebridge"
+
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: portainer
+    restart: unless-stopped
+    ports:
+      - 7328:9000
+    volumes:
+      - ~/Documents/internal-services/portainer:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+networks:
+  cloudflared:
+    external: true
+    name: "cloudflared"

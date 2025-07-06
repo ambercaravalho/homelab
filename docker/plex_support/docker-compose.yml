@@ -1,0 +1,127 @@
+services:
+  qbittorrent:
+    image: ghcr.io/linuxserver/qbittorrent
+    container_name: qbittorrent
+    depends_on:
+      gluetun:
+        condition: service_started
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ=America/Los_Angeles
+      - WEBUI_PORT=6011
+    volumes:
+      - "~/Documents/plex-torrent-support/qbittorrent:/config"
+      - "/Volumes/Plex Media Library/shared_data/torrents:/data/torrents"
+    network_mode: "container:protonvpn"
+    restart: unless-stopped
+
+  bazarr:
+    container_name: bazarr
+    image: ghcr.io/hotio/bazarr:latest
+    depends_on:
+      gluetun:
+        condition: service_started
+    restart: unless-stopped
+    logging:
+      driver: json-file
+    network_mode: "container:protonvpn"
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ=America/Los_Angeles
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "~/Documents/plex-torrent-support/bazarr:/config"
+      - "/Volumes/Plex Media Library/shared_data:/data"
+
+  lidarr:
+    container_name: lidarr
+    image: ghcr.io/hotio/lidarr:latest
+    depends_on:
+      gluetun:
+        condition: service_started
+    restart: unless-stopped
+    logging:
+      driver: json-file
+    network_mode: "container:protonvpn"
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ=America/Los_Angeles
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "~/Documents/plex-torrent-support/lidarr:/config"
+      - "/Volumes/Plex Media Library/shared_data:/data"
+
+  prowlarr:
+    container_name: prowlarr
+    image: ghcr.io/hotio/prowlarr
+    depends_on:
+      gluetun:
+        condition: service_started
+    restart: unless-stopped
+    logging:
+      driver: json-file
+    network_mode: "container:protonvpn"
+    environment:
+      - PUID=0
+      - PGID=0
+      - UMASK=002
+      - TZ=America/Los_Angeles
+    volumes:
+      - "~/Documents/plex-torrent-support/prowlarr:/config"
+
+  radarr:
+    container_name: radarr
+    image: ghcr.io/hotio/radarr:latest
+    depends_on:
+      gluetun:
+        condition: service_started
+    restart: unless-stopped
+    logging:
+      driver: json-file
+    network_mode: "container:protonvpn"
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ=America/Los_Angeles
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "~/Documents/plex-torrent-support/radarr:/config"
+      - "/Volumes/Plex Media Library/shared_data:/data"
+
+  sonarr:
+    container_name: sonarr
+    image: ghcr.io/hotio/sonarr:latest
+    depends_on:
+      gluetun:
+        condition: service_started
+    restart: unless-stopped
+    logging:
+      driver: json-file
+    network_mode: "container:protonvpn"
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ=America/Los_Angeles
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "~/Documents/plex-torrent-support/sonarr:/config"
+      - "/Volumes/Plex Media Library/shared_data:/data"
+
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    depends_on:
+      gluetun:
+        condition: service_started
+    restart: unless-stopped
+    logging:
+      driver: json-file
+    network_mode: "container:protonvpn"
+    environment:
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - LOG_HTML=${LOG_HTML:-false}
+      - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
+      - TZ=America/Los_Angeles

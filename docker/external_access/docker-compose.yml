@@ -1,0 +1,39 @@
+services:
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    restart: unless-stopped
+    networks:
+      - "cloudflared"
+    command: tunnel run --token
+            ${CLOUDFLARE_TUNNEL_TOKEN}
+
+  gluetun:
+    image: qmcgaw/gluetun
+    container_name: ${VPN_SERVICE_PROVIDER}
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - 6081:6881
+      - 6081:6881/udp
+      - 6011:6011           # qbittorent
+      - 7878:7878           # radarr
+      - 8989:8989           # sonarr
+      - 8686:8686           # lidarr
+      - 6767:6767           # bazarr
+      - 9696:9696           # prowlarr
+      - 8191:8191           # flaresolverr
+    environment:
+      - VPN_SERVICE_PROVIDER=${VPN_SERVICE_PROVIDER}
+      - OPENVPN_USER=${OPENVPN_USER}
+      - OPENVPN_PASSWORD=${OPENVPN_PASSWORD}
+      - SERVER_COUNTRIES=${SERVER_COUNTRIES}
+    volumes:
+      - "~/Documents/plex-torrent-support/gluetun:/gluetun"
+      - "/dev/net/tun:/dev/net/tun"
+    restart: unless-stopped
+
+networks:
+  cloudflared:
+    external: true
+    name: "cloudflared"

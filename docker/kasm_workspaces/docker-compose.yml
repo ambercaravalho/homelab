@@ -1,0 +1,23 @@
+services:
+  kasm:
+    image: lscr.io/linuxserver/kasm:latest
+    container_name: kasm-workspaces
+    ports:
+      - 3843:3000
+      - 443:443
+    restart: unless-stopped
+    privileged: true
+    security_opt:
+      - apparmor:rootlesskit
+    environment:
+      - KASM_PORT=443
+    networks:
+      - "cloudflared"
+    volumes:
+      - "~/Documents/kasm-workspaces/data:/opt"
+      - "~/Documents/kasm-workspaces/profiles:/profiles"
+
+networks:
+  cloudflared:
+    external: true
+    name: "cloudflared"
