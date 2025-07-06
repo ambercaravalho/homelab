@@ -29,7 +29,7 @@ services:
       - OPENVPN_PASSWORD=${OPENVPN_PASSWORD}
       - SERVER_COUNTRIES=${SERVER_COUNTRIES}
     volumes:
-      - "~/Documents/plex-torrent-support/gluetun:/gluetun"
+      - "${VOLUME_LOCATION}/external_access/gluetun:/gluetun"
       - "/dev/net/tun:/dev/net/tun"
     restart: unless-stopped
 

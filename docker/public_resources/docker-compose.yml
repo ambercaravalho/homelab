@@ -8,7 +8,7 @@ services:
     networks:
       - "cloudflared"
     volumes:
-      - "~/Documents/public-resources/open-webui:/app/backend/data"
+      - "${VOLUME_LOCATION}/public_resources/open-webui:/app/backend/data"
 
   planning-poker:
     image: "axeleroy/self-host-planning-poker:latest"
@@ -18,10 +18,10 @@ services:
     networks:
       - "cloudflared"
     volumes:
-      - "~/Documents/public-resources/planning-poker/data:/data"
-      - "~/Documents/public-resources/planning-poker/customization/app-icon.svg:/app/static/assets/icon.svg"
-      - "~/Documents/public-resources/planning-poker/customization/favicon-package:/app/static/assets/favicon"
-      - "~/Documents/public-resources/planning-poker/customization/overrides.css:/app/static/overrides.css"
+      - "${VOLUME_LOCATION}/public_resources/planning-poker/data:/data"
+      - "${VOLUME_LOCATION}/public_resources/planning-poker/customization/app-icon.svg:/app/static/assets/icon.svg"
+      - "${VOLUME_LOCATION}/public_resources/planning-poker/customization/favicon-package:/app/static/assets/favicon"
+      - "${VOLUME_LOCATION}/public_resources/planning-poker/customization/overrides.css:/app/static/overrides.css"
 
   wordpress-v2:
     image: "docker.io/bitnami/wordpress:latest"
@@ -30,7 +30,7 @@ services:
     depends_on:
       - wordpress-db-v2
     ports:
-      - "3840:80/tcp"
+      - "3842:80/tcp"
     networks:
       - "cloudflared"
       - "wordpress_db_archive_v2"
@@ -41,7 +41,7 @@ services:
       - "WORDPRESS_DATABASE_NAME=${WORDPRESS_DATABASE_NAME_ARCHIVE_V2}"
       - "WORDPRESS_DATABASE_PASSWORD=${WORDPRESS_DATABASE_PASSWORD_ARCHIVE_V2}"
     volumes:
-      - "~/Documents/new-wordpress-archive/archive-v2-wordpress/wp-data:/bitnami/wordpress"
+      - "${VOLUME_LOCATION}/public_resources/archive-v2-wordpress/wp-data:/bitnami/wordpress"
 
   wordpress-db-v2:
     image: "docker.io/bitnami/mariadb:latest"
@@ -54,7 +54,7 @@ services:
       - "MARIADB_DATABASE=${WORDPRESS_DATABASE_NAME_ARCHIVE_V2}"
       - "MARIADB_PASSWORD=${WORDPRESS_DATABASE_PASSWORD_ARCHIVE_V2}"
     volumes:
-      - "~/Documents/new-wordpress-archive/archive-v2-wordpress/db:/bitnami/mariadb"
+      - "${VOLUME_LOCATION}/public_resources/archive-v2-wordpress/db:/bitnami/mariadb"
 
   wordpress-v3:
     image: "wordpress:latest"
@@ -71,7 +71,7 @@ services:
       - "WORDPRESS_DB_NAME=${WORDPRESS_DATABASE_NAME_ARCHIVE_V3}"
       - "WORDPRESS_DB_USER=${WORDPRESS_DATABASE_USER_ARCHIVE_V3}"
     volumes:
-      - "~/Documents/archive-wordpress-legacy/archive-v3_wordpress:/var/www/html"
+      - "${VOLUME_LOCATION}/public_resources/archive-v3_wordpress:/var/www/html"
 
   wordpress-db-v3:
     image: "biarms/mysql:5.7"
@@ -85,7 +85,7 @@ services:
       - "MYSQL_PASSWORD=${WORDPRESS_DATABASE_PASSWORD_ARCHIVE_V3}"
       - "MYSQL_RANDOM_ROOT_PASSWORD=1"
     volumes:
-      - "~/Documents/archive-wordpress-legacy/archive-v3_wordpress/db:/var/lib/mysql"
+      - "${VOLUME_LOCATION}/public_resources/archive-v3_wordpress/db:/var/lib/mysql"
 
   wordpress-cybergames:
     image: "wordpress:latest"
@@ -102,7 +102,7 @@ services:
       - "WORDPRESS_DB_NAME=${WORDPRESS_DATABASE_NAME_ARCHIVE_JBLECYBERGAMES}"
       - "WORDPRESS_DB_USER=${WORDPRESS_DATABASE_USER_ARCHIVE_JBLECYBERGAMES}"
     volumes:
-      - "~/Documents/archive-wordpress-legacy/cyber-games_wordpress:/var/www/html"
+      - "${VOLUME_LOCATION}/public_resources/cyber-games_wordpress:/var/www/html"
 
   wordpress-db-cybergames:
     image: "biarms/mysql:5.7"
@@ -116,7 +116,7 @@ services:
       - "MYSQL_PASSWORD=${WORDPRESS_DATABASE_PASSWORD_ARCHIVE_JBLECYBERGAMES}"
       - "MYSQL_RANDOM_ROOT_PASSWORD=1"
     volumes:
-      - "~/Documents/archive-wordpress-legacy/cyber-games_wordpress/db:/var/lib/mysql"
+      - "${VOLUME_LOCATION}/public_resources/cyber-games_wordpress/db:/var/lib/mysql"
 
 networks:
   wordpress_archive_cybergames:

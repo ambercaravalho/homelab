@@ -12,7 +12,7 @@ services:
       - AUTOHEAL_LOG_PERSIST=true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ~/Documents/internal-services/autoheal/log.json:/opt/docker-autoheal/log.json:rw
+      - ${VOLUME_LOCATION}/internal_services/autoheal/log.json:/opt/docker-autoheal/log.json:rw
 
   glance:
     image: glanceapp/glance
@@ -22,7 +22,7 @@ services:
       - 2811:8080
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - ~/Documents/internal-services/glance:/app/config
+      - ${VOLUME_LOCATION}/internal_services/glance:/app/config
 
   homebridge:
    image: "homebridge/homebridge:latest"
@@ -30,7 +30,7 @@ services:
    network_mode: "host"
    restart: "always"
    volumes:
-    - "~/Documents/home-automation/homebridge:/homebridge"
+    - "${VOLUME_LOCATION}/internal_services/homebridge:/homebridge"
 
   portainer:
     image: portainer/portainer-ce:latest
@@ -39,7 +39,7 @@ services:
     ports:
       - 7328:9000
     volumes:
-      - ~/Documents/internal-services/portainer:/data
+      - ${VOLUME_LOCATION}/internal_services/portainer:/data
       - /var/run/docker.sock:/var/run/docker.sock
 
   watchtower:

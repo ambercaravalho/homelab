@@ -14,8 +14,8 @@ services:
     networks:
       - "cloudflared"
     volumes:
-      - "~/Documents/kasm-workspaces/data:/opt"
-      - "~/Documents/kasm-workspaces/profiles:/profiles"
+      - "${VOLUME_LOCATION}/kasm_workspaces/data:/opt"
+      - "${VOLUME_LOCATION}/kasm_workspaces/profiles:/profiles"
 
 networks:
   cloudflared:

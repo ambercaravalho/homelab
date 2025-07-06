@@ -2,9 +2,9 @@
 
 macOS sucks and should never be used as a server platform. _That being said_, I've picked it as my OS of choice. 
 
-Let's just say this was purposeful because of its [excellent performance per watt](https://www.jeffgeerling.com/blog/2024/m4-mac-minis-efficiency-incredible) stats and call it a day.
+_Let's just say this was purposeful because of its [excellent performance per watt](https://www.jeffgeerling.com/blog/2024/m4-mac-minis-efficiency-incredible) stats and call it a day._
 
-### In no particular order, here are some config docs:
+## Config Docs:
 
 - [AltServer Sideloading](/macos/altserver/README.md)
 - [Brew Package Manager](/macos/brew/README.md)
@@ -15,4 +15,4 @@ Let's just say this was purposeful because of its [excellent performance per wat
 - [Plex Media Server](/macos/plex/README.md)
 - [System Settings](/macos/system_settings/README.md)
 
-_and don't forget, there's always more to do! 😘_
+_and don't forget, there's always more to do!_ - Mrs. Smith (my 4th grade teacher)

@@ -11,8 +11,8 @@ services:
       - TZ=America/Los_Angeles
       - WEBUI_PORT=6011
     volumes:
-      - "~/Documents/plex-torrent-support/qbittorrent:/config"
-      - "/Volumes/Plex Media Library/shared_data/torrents:/data/torrents"
+      - "${VOLUME_LOCATION}/plex_support/qbittorrent:/config"
+      - "${PLEX_MEDIA_LIBRARY}/shared_data/torrents:/data/torrents"
     network_mode: "container:protonvpn"
     restart: unless-stopped
 
@@ -32,8 +32,8 @@ services:
       - TZ=America/Los_Angeles
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
-      - "~/Documents/plex-torrent-support/bazarr:/config"
-      - "/Volumes/Plex Media Library/shared_data:/data"
+      - "${VOLUME_LOCATION}/plex_support/bazarr:/config"
+      - "${PLEX_MEDIA_LIBRARY}/shared_data:/data"
 
   lidarr:
     container_name: lidarr
@@ -51,8 +51,8 @@ services:
       - TZ=America/Los_Angeles
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
-      - "~/Documents/plex-torrent-support/lidarr:/config"
-      - "/Volumes/Plex Media Library/shared_data:/data"
+      - "${VOLUME_LOCATION}/plex_support/lidarr:/config"
+      - "${PLEX_MEDIA_LIBRARY}/shared_data:/data"
 
   prowlarr:
     container_name: prowlarr
@@ -70,7 +70,7 @@ services:
       - UMASK=002
       - TZ=America/Los_Angeles
     volumes:
-      - "~/Documents/plex-torrent-support/prowlarr:/config"
+      - "${VOLUME_LOCATION}/plex_support/prowlarr:/config"
 
   radarr:
     container_name: radarr
@@ -88,8 +88,8 @@ services:
       - TZ=America/Los_Angeles
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
-      - "~/Documents/plex-torrent-support/radarr:/config"
-      - "/Volumes/Plex Media Library/shared_data:/data"
+      - "${VOLUME_LOCATION}/plex_support/radarr:/config"
+      - "${PLEX_MEDIA_LIBRARY}/shared_data:/data"
 
   sonarr:
     container_name: sonarr
@@ -107,8 +107,8 @@ services:
       - TZ=America/Los_Angeles
     volumes:
       - "/etc/localtime:/etc/localtime:ro"
-      - "~/Documents/plex-torrent-support/sonarr:/config"
-      - "/Volumes/Plex Media Library/shared_data:/data"
+      - "${VOLUME_LOCATION}/plex_support/sonarr:/config"
+      - "${PLEX_MEDIA_LIBRARY}/shared_data:/data"
 
   flaresolverr:
     image: ghcr.io/flaresolverr/flaresolverr:latest
