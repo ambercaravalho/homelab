@@ -9,14 +9,22 @@ _This repo will likely always be in progress and should never be taken seriously
 ## 1. Configuration Categories
 
 ### 1.1 [macOS Setup](/macos/README.md)
-- **Purpose**: Base system configuration for running containers on macOS
-- **Includes**: Brew packages, Colima setup, system settings, and essential services
-- **Priority**: Complete this first before deploying any containers
+
+- **Purpose**: Base system configuration for running containers on macOS.
+- **Includes**: Brew packages, Colima setup, system settings, and essential services.
+- **Priority**: Complete this first before deploying any containers.
 
 ### 1.2 [Docker Services](/docker/README.md)
-- **Purpose**: Container orchestration for various homelab services
-- **Includes**: Media management, monitoring, external access, and productivity tools
-- **Stack**: Standalone Docker Compose (because complexity is overrated)
+
+- **Purpose**: Container orchestration for various homelab services.
+- **Includes**: Media management, monitoring, external access, and productivity tools.
+- **Stack**: Standalone Docker Compose (because complexity is overrated).
+
+### 1.3 [Internal Networking](/network/README.md)
+
+- **Purpose**: Network infrastructure configuration and IP address management.
+- **Includes**: OPNsense router setup, DNS configuration, VPN access, and security monitoring.
+- **Features**: Structured IP allocation, DoH encryption, WireGuard VPN, and IDS/IPS.
 
 ## 2. Quick Start
 
