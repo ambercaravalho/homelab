@@ -2,7 +2,7 @@
 
 My personal HomeLab configuration. A collection of scripts, configs, and container orchestration for running services on macOS.
 
-_This repo will likely always be in progress and should never be taken very seriously_ 🏠
+_This repo will likely always be in progress and should never be taken seriously._ 🏠
 
 > Will things work in your environment? Will I ever start using proper CI/CD pipelines? Will I accidentally expose a secret here eventually? _Who knows?!_ That's the fun of it.
 
