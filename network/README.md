@@ -7,7 +7,7 @@ The network is the powerhouse of the cell! (_or was that the mitochandria?_) Clo
 ```mermaid
 graph TD
     subgraph Cabinet["Smart Box"]
-        subgraph Router["OPNsense Router<br/>192.168.1.1<br/>_(Router_Hosts)_"]
+        subgraph Router["OPNsense | 192.168.1.1"]
             subgraph Row2[" "]
                 DHCP[**ISC DHCPV4**<br/>192.168.1.10-90]
                 NAT[**NAT**<br/>Port Forwarding]
@@ -28,6 +28,7 @@ graph TD
     Server["**HomeLab Server**<br/>Docker Host<br/>192.168.1.100<br/>_(Dev_Hosts)_"]
     
     Router ---|Ethernet| AP
+    AP ---|Ethernet| DistPanel
     AP ---|Ethernet| DistPanel
     DistPanel ---|Ethernet| TV
     DistPanel ---|Ethernet| Server
